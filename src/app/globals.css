@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth !important;
+}
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+  background: #e7e7e7;
+  -webkit-border-radius: 1ex;
+  border-radius: 1ex;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  -webkit-border-radius: 1ex;
+  border-radius: 1ex;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+
+/* input[type="date"]::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+ input[type="date"]::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+    color: transparent;
+} */
+
+input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+input[type="date"]:in-range::-webkit-datetime-edit-month-field,
+input[type="date"]:in-range::-webkit-datetime-edit-day-field,
+input[type="date"]:in-range::-webkit-datetime-edit-text {
+  color: transparent;
+  background: transparent;
+  width: 0px;
+}
