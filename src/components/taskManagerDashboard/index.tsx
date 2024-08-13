@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, Checkbox, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
+import React, { Button, Card, Checkbox, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import axios from "axios";
@@ -17,9 +17,20 @@ export default function TaskManagerDashboard() {
     // const [token, setToken] = useState<string | null>(null);
     const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null); // State for managing the task to be deleted
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
     const router = useRouter()
 
-    const token = localStorage.getItem("token")
+    useEffect(() => {
+        // Ensure this only runs on the client side
+        if (typeof window !== "undefined") {
+            const storedToken = localStorage.getItem("token");
+            if (storedToken) {
+                setToken(storedToken);
+            } else {
+                router.push("/login");
+            }
+        }
+    }, [router]);
 
     useEffect(() => {
         getTasks()
