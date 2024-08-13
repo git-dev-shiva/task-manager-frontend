@@ -21,17 +21,9 @@ type Props = {
 export default function CreateTasks({
     onSubmit,
     taskToEdit,
-    open,
     onClose: handleClose
 }: Props) {
-    const { onOpen } = useDisclosure();
     const aspectSchema = new TasksSchema();
-
-    useEffect(() => {
-        if (open) {
-            onOpen();
-        }
-    }, [open]);
 
     return (
         <>
@@ -62,41 +54,43 @@ export default function CreateTasks({
 
                 }) => (
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <Input
-                                type="text"
-                                name="title"
-                                label="Title*"
-                                variant="bordered"
-                                value={values.title}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                errorMessage={
-                                    Boolean(errors.title && touched.title) ? errors.title : ""
-                                }
-                                isInvalid={Boolean(errors.title && touched.title)}
-                                className="w-full"
-                            />
-                        </div>
+                        <div className="grid gap-4">
+                            <div>
+                                <Input
+                                    type="text"
+                                    name="title"
+                                    label="Title*"
+                                    variant="bordered"
+                                    value={values.title}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    errorMessage={
+                                        Boolean(errors.title && touched.title) ? errors.title : ""
+                                    }
+                                    isInvalid={Boolean(errors.title && touched.title)}
+                                    className="w-full"
+                                />
+                            </div>
 
-                        <div>
-                            <Textarea
-                                type="text"
-                                label="Description"
-                                name="description"
-                                variant="bordered"
-                                value={values.description}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                errorMessage={
-                                    Boolean(errors.description && touched.description)
-                                        ? errors.description
-                                        : ""
-                                }
-                                isInvalid={Boolean(errors.description && touched.description)}
-                                className="w-full"
-                                minRows={5}
-                            />
+                            <div>
+                                <Textarea
+                                    type="text"
+                                    label="Description"
+                                    name="description"
+                                    variant="bordered"
+                                    value={values.description}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    errorMessage={
+                                        Boolean(errors.description && touched.description)
+                                            ? errors.description
+                                            : ""
+                                    }
+                                    isInvalid={Boolean(errors.description && touched.description)}
+                                    className="w-full"
+                                    minRows={5}
+                                />
+                            </div>
                         </div>
 
                         <ModalFooter>

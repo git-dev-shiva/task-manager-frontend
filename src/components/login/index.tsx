@@ -3,8 +3,9 @@ import LoginSchema from "@/common/schema/login.schema";
 import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
 import { Formik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 
 export default function Login() {
@@ -18,7 +19,7 @@ export default function Login() {
                 toast.error("Invalid Credentials");
             }
             localStorage.setItem("token", res.data.token);
-            toast.success(res.statusText)
+            toast.success("Logged in");
             return router.push("/dashboard")
         } catch (error: any) {
             toast.error(error.message)
@@ -28,6 +29,7 @@ export default function Login() {
 
     return (
         <>
+            <Toaster />
             <Formik initialValues={loginSchema.initialValues} validationSchema={loginSchema.schema} onSubmit={async (values, { setSubmitting }) => {
                 try {
                     await handleSubmit(values)
@@ -73,6 +75,12 @@ export default function Login() {
                                 <Button type="submit" className="w-full" isLoading={isSubmitting}>
                                     Sign in
                                 </Button>
+                                <p className="text-center mt-4">
+                                    Don't have an account?{" "}
+                                    <Link href="/register">
+                                        Sign up
+                                    </Link>
+                                </p>
                             </div>
                         </div>
                     </div>
