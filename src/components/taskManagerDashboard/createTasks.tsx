@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import {
     ModalFooter,
@@ -8,7 +7,7 @@ import {
     Textarea
 } from "@nextui-org/react";
 import { Formik } from "formik";
-import TasksSchema from "@/common/utils/schema/create-tasks.schema";
+import TasksSchema from "@/common/schema/create-tasks.schema";
 import { Tasks } from "@/common/types/create-tasks";
 
 type Props = {
@@ -61,7 +60,6 @@ export default function CreateTasks({
                     handleSubmit,
                     isSubmitting,
 
-                    setFieldValue
                 }) => (
                     <form onSubmit={handleSubmit}>
                         <div>

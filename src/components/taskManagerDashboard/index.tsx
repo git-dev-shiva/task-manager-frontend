@@ -1,5 +1,4 @@
 "use client";
-
 import { Button, Card, Checkbox } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -14,15 +13,24 @@ export default function TaskManagerDashboard() {
     const [tasks, setTasks] = useState<Tasks[]>([]);
     const [editingTasks, setEditingTasks] = useState<Tasks | null>(null);
     const [open, setOpen] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
+        // Only access localStorage on the client side
+        if (typeof window !== "undefined") {
+            const storedToken = localStorage.getItem("token");
+            setToken(storedToken);
+        }
         getTasks()
     }, [])
 
     const getTasks = async () => {
         try {
-            const res = await axios.get("http://localhost:8081/tasks")
-            console.log("logg:tasks==>", res.data)
+            const res = await axios.get("http://localhost:8081/tasks", {
+                headers: {
+                    jwttoken: token, // Include the JWT token in the request headers
+                },
+            })
             setTasks(res.data)
         } catch (error) {
             console.error(error)
@@ -32,12 +40,22 @@ export default function TaskManagerDashboard() {
     const handleTasks = async (values: any) => {
         try {
             if (editingTasks) {
-                const res = await axios.patch("http://localhost:8081/tasks", values)
+                const res = await axios.patch(`http://localhost:8081/tasks/${editingTasks._id}`, values)
+                setTasks((prevTasks) =>
+                    prevTasks.map((task) =>
+                        task._id === res.data.event._id ? res.data.event : task
+                    )
+                );
                 toast.success("Task Updated Successfully");
 
             }
             else {
-                const res = await axios.post("http://localhost:8081/tasks", values)
+                const res = await axios.post("http://localhost:8081/tasks", values, {
+                    headers: {
+                        jwttoken: token, // Send token in jwttoken header
+                    },
+                })
+                setTasks((prevTasks) => [res.data, ...prevTasks]);
                 toast.success("Task Created Successfully");
             }
         } catch (error: any) {
@@ -53,10 +71,6 @@ export default function TaskManagerDashboard() {
         );
     };
 
-    const handleTaskDelete = (id: string) => {
-        // setTasks(tasks.filter((task) => task.id !== id));
-    };
-
     const handleEdit = async (taskId: string) => {
         try {
             const res = await axios.get(`http://localhost:8081/tasks/${taskId}`)
@@ -66,6 +80,10 @@ export default function TaskManagerDashboard() {
         } catch (error) {
             console.error("Error fetching aspect for editing:", error);
         }
+    };
+
+    const handleTaskDelete = (id: string) => {
+        // setTasks(tasks.filter((task) => task.id !== id));
     };
 
     return (
