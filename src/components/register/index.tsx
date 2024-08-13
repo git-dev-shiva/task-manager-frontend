@@ -13,7 +13,7 @@ const Register = () => {
 
     const handleSubmit = async (values: any) => {
         try {
-            const res = await axios.post("http://localhost:8081/signup", values)
+            const res = await axios.post("https://task-manager-backend-3r74.onrender.com/signup", values)
             if (!res.data) {
                 return toast.error(res.data.message || "Registration Failed")
             }

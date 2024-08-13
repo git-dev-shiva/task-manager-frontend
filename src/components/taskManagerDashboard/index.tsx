@@ -41,7 +41,7 @@ export default function TaskManagerDashboard() {
 
     const getTasks = async () => {
         try {
-            const res = await axios.get("http://localhost:8081/tasks", {
+            const res = await axios.get("https://task-manager-backend-3r74.onrender.com/tasks", {
                 headers: {
                     jwttoken: token, // Include the JWT token in the request headers
                 },
@@ -55,7 +55,7 @@ export default function TaskManagerDashboard() {
     const handleTasks = async (values: any) => {
         try {
             if (editingTasks) {
-                const res = await axios.patch(`http://localhost:8081/tasks/${editingTasks._id}`, values)
+                const res = await axios.patch(`https://task-manager-backend-3r74.onrender.com/tasks/${editingTasks._id}`, values)
                 setTasks((prevTasks) =>
                     prevTasks.map((task) =>
                         task._id === res.data.event._id ? res.data.event : task
@@ -65,7 +65,7 @@ export default function TaskManagerDashboard() {
 
             }
             else {
-                const res = await axios.post("http://localhost:8081/tasks", values, {
+                const res = await axios.post("https://task-manager-backend-3r74.onrender.com/tasks", values, {
                     headers: {
                         jwttoken: token, // Send token in jwttoken header
                     },
@@ -82,7 +82,7 @@ export default function TaskManagerDashboard() {
     const handleTaskStatusChange = async (id: string, currentStatus: boolean) => {
         try {
             const res = await axios.patch(
-                `http://localhost:8081/tasks/${id}`,
+                `https://task-manager-backend-3r74.onrender.com/tasks/${id}`,
                 { completed: !currentStatus },
                 {
                     headers: {
@@ -106,8 +106,8 @@ export default function TaskManagerDashboard() {
 
     const handleEdit = async (taskId: string) => {
         try {
-            const res = await axios.get(`http://localhost:8081/tasks/${taskId}`)
-            if (res.statusText !== "OK") return;
+            const res = await axios.get(`https://task-manager-backend-3r74.onrender.com/tasks/${taskId}`)
+            // if (res.statusText !== "OK") return;
             setEditingTasks(res.data);
             setOpen(true);
         } catch (error) {
@@ -123,7 +123,7 @@ export default function TaskManagerDashboard() {
     const handleTaskDelete = async () => {
         if (!deleteTaskId) return;
         try {
-            const res = await axios.delete(`http://localhost:8081/tasks/${deleteTaskId}`)
+            const res = await axios.delete(`https://task-manager-backend-3r74.onrender.com/tasks/${deleteTaskId}`)
             if (!res.data) return toast.error("Unable to delete")
             setTasks((prevTasks) => prevTasks.filter((task) => task._id !== deleteTaskId));
             setDeleteModalOpen(false);
