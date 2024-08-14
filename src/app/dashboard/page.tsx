@@ -1,6 +1,10 @@
-import TaskManagerDashboard from "@/components/taskManagerDashboard";
+import dynamic from "next/dynamic";
 
-const TaskManagerDashboardPage = async () => {
+const TaskManagerDashboard = dynamic(() => import("@/components/taskManagerDashboard"), {
+    ssr: false,
+});
+
+const TaskManagerDashboardPage = () => {
     return <TaskManagerDashboard />;
 };
 

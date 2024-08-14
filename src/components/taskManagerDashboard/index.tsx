@@ -17,24 +17,25 @@ export default function TaskManagerDashboard() {
     // const [token, setToken] = useState<string | null>(null);
     const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null); // State for managing the task to be deleted
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [token, setToken] = useState<string | null>(null);
+    // const [token, setToken] = useState<string | null>(null);
     const router = useRouter()
 
-    useEffect(() => {
-        // Ensure this only runs on the client side
-        if (typeof window !== "undefined") {
-            const storedToken = localStorage.getItem("token");
-            if (storedToken) {
-                setToken(storedToken);
-            } else {
-                router.push("/login");
-            }
-        }
-    }, [router]);
+    const token = localStorage.getItem("token")
 
-    useEffect(() => {
-        getTasks()
-    }, [])
+    // useEffect(() => {
+    //     // Ensure this only runs on the client side
+    //     console.log("logg:window==>", typeof window)
+    //     if (typeof window !== "undefined") {
+    //         const storedToken = localStorage.getItem("token");
+    //         if (storedToken) {
+    //             setToken(storedToken);
+    //         }
+    //     }
+    // }, [router]);
+
+    // useEffect(() => {
+    //     getTasks()
+    // }, [])
 
     useEffect(() => {
         if (!token) {
